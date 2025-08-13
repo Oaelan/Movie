@@ -126,6 +126,15 @@ src/
 
 자세한 개발 가이드라인은 [`.cursor/prompts.md`](./.cursor/prompts.md) 파일을 참고하세요.
 
+## 🌿 브랜치 전략
+
+이 프로젝트는 **GitHub Flow**를 사용합니다:
+
+- 모든 기능은 `feature/` 브랜치에서 개발
+- main 브랜치 보호 규칙 적용
+
+자세한 브랜치 전략은 [`BRANCH_STRATEGY.md`](./BRANCH_STRATEGY.md)를 참고하세요.
+
 ## 📞 연락처
 
 프로젝트에 대한 문의사항이 있으시면 이슈를 생성해주세요.
