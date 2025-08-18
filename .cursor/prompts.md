@@ -81,10 +81,12 @@ src/
 ### 📝 코딩 컨벤션
 
 - **네이밍**: camelCase (변수, 함수), PascalCase (컴포넌트)
+- **컴포넌트 선언**: `export default function 컴포넌트명` 형식 사용
 - **주석**: 한글 주석으로 명확한 설명
 - **타입**: 모든 API 응답에 대한 타입 정의
 - **에러 처리**: try-catch와 적절한 에러 바운더리
 - **성능**: React.memo, useMemo, useCallback 적절히 사용
+- **개발 방식**: 사용자가 직접 구현하겠다고 하지 않는 이상 구현 방법만 제안
 
 ### 🚀 성능 최적화
 
@@ -105,6 +107,26 @@ src/
 - TMDB API 문서: https://developers.themoviedb.org/
 - Next.js 15 문서: https://nextjs.org/docs
 - Tailwind CSS 문서: https://tailwindcss.com/docs
+
+## 📝 컴포넌트 구조 예시
+
+```typescript
+// src/components/movie/MovieCard.tsx
+import React from 'react';
+import { Movie } from '@/lib/types/movie';
+
+interface MovieCardProps {
+  movie: Movie;
+  onFavorite?: (movieId: number) => void;
+}
+
+export default function MovieCard({ movie, onFavorite }: MovieCardProps) {
+  // 컴포넌트 로직
+  return (
+    // JSX
+  );
+}
+```
 
 ---
 
