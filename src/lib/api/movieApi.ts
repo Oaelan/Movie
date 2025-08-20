@@ -1,4 +1,4 @@
-import { Movie, TMDBResponse } from "@/lib/types/movie";
+import { Movie, TMDBResponse, DetailMovie } from "@/lib/types/movie";
 
 // TMDB API 기본 설정
 const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
@@ -71,6 +71,25 @@ export async function getTopRatedMovies(): Promise<Movie[]> {
     .then((data) => data.results)
     .catch((error) => {
       console.error("평점순 영화 패치 오류:", error);
+      throw error;
+    });
+  return res;
+}
+//영화 상세 정보 요청 함수
+export async function getMovieDetail(id: string): Promise<DetailMovie> {
+  if (!API_KEY) throw new Error("TMDB API 키를 설정해주세요!");
+  const searchParams = new URLSearchParams({
+    api_key: API_KEY,
+    language: "ko-KR",
+  });
+  const url = `${BASE_URL}/movie/${id}?${searchParams}`;
+  const res = await fetch(url)
+    .then((res) => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      return res.json();
+    })
+    .catch((error) => {
+      console.error("영화 상세 정보 패치 오류:", error);
       throw error;
     });
   return res;
