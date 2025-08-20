@@ -1,6 +1,5 @@
-import HeroSection from "@/components/ui/HeroSection";
+import { HeroSection, MovieCardSlider } from "@/components";
 import { Movie } from "@/lib/types/movie";
-import MovieCardSlider from "@/components/movie/MovieCardSlider";
 import {
   getLatestMovies,
   getPopularMovies,
@@ -8,12 +7,18 @@ import {
 } from "@/lib/api/movieApi";
 
 export default async function Home() {
-  const latestMovies: Movie[] = await getLatestMovies();
-  const popularMovies: Movie[] = await getPopularMovies();
-  const topRatedMovies: Movie[] = await getTopRatedMovies();
+  const [latestMovies, popularMovies, topRatedMovies]: [
+    Movie[],
+    Movie[],
+    Movie[]
+  ] = await Promise.all([
+    getLatestMovies(),
+    getPopularMovies(),
+    getTopRatedMovies(),
+  ]);
 
   return (
-    <div className="bg-primary h-screen mt-[154px]">
+    <div className="bg-primary h-screen">
       <HeroSection
         className="mb-15"
         title="찾고 싶은 영화를 마음껏 검색하세요!"

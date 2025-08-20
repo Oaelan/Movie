@@ -1,4 +1,5 @@
 "use client";
+import { setThemeCookieClient } from "@/lib/utils/cookies";
 import {
   createContext,
   useContext,
@@ -7,7 +8,7 @@ import {
   ReactNode,
 } from "react";
 
-type Theme = "light" | "dark";
+export type Theme = "light" | "dark";
 
 type ThemeContextType = {
   theme: Theme;
@@ -18,31 +19,23 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 interface ThemeProviderProps {
   children: ReactNode;
+  initialTheme: Theme;
 }
-export default function ThemeProvider({ children }: ThemeProviderProps) {
-  const [isMounted, setIsMounted] = useState(false);
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window !== "undefined") {
-      const storedTheme = localStorage.getItem("theme") as Theme;
-      return storedTheme || "light";
-    }
-    return "light";
-  });
+export default function ThemeProvider({
+  children,
+  initialTheme,
+}: ThemeProviderProps) {
+  const [theme, setTheme] = useState<Theme>(initialTheme);
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
+  // 테마 변경 시 쿠키 저장
   useEffect(() => {
-    localStorage.setItem("theme", theme);
+    setThemeCookieClient(theme);
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) return null;
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
