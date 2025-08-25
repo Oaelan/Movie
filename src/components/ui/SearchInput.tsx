@@ -1,25 +1,14 @@
 "use client";
-import { InputHTMLAttributes, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { InputHTMLAttributes } from "react";
+import { useSearchParams } from "next/navigation";
+import useSearchInput from "@/hooks/useSearchInput";
 
 export default function SearchInput({
   placeholder = "영화를 검색하세요",
 }: InputHTMLAttributes<HTMLInputElement>) {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("query") || "";
-  const [query, setQuery] = useState(searchQuery);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (query.trim()) {
-      router.push(`/search?query=${query}`);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-  };
+  const { query, handleSubmit, handleChange } = useSearchInput(searchQuery);
 
   return (
     <form onSubmit={handleSubmit} className="flex items-center gap-2">

@@ -1,5 +1,5 @@
 import { Movie } from "@/lib/types/movie";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface UseSliderProps {
   moviesCount: number;
@@ -37,7 +37,12 @@ export default function useSlider({
     if (currentPage <= 0) setCurrentPage(totalPage - 1);
     else setCurrentPage(currentPage - 1);
   };
-
+  useEffect(() => {
+    if (isAutoSlide) {
+      const timer = setInterval(nextMovies, slideInterval);
+      return () => clearInterval(timer);
+    }
+  }, [isAutoSlide, nextMovies, slideInterval]);
   return {
     currentPage,
     setCurrentPage,

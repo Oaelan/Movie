@@ -5,7 +5,6 @@ import MovieCard from "./MovieCard";
 import SliderButton from "@/components/ui/SliderButton";
 import Indicator from "@/components/ui/Indicator";
 import useSlider from "@/hooks/useSlider";
-import { useEffect } from "react";
 
 interface MovieCardSliderProps extends HTMLAttributes<HTMLDivElement> {
   movies: Movie[];
@@ -25,19 +24,9 @@ export default function MovieCardSlider({
     nextMovies,
     prevMovies,
     translateX,
-    isAutoSlide,
     handleMouseEnter,
     handleMouseLeave,
-    slideInterval,
   } = useSlider({ moviesCount: moviesCount, movies, sliderWidth: 960 });
-
-  // TODO: 자동 슬라이드 useEffect 구현
-  useEffect(() => {
-    if (isAutoSlide) {
-      const timer = setInterval(nextMovies, slideInterval);
-      return () => clearInterval(timer);
-    }
-  }, [isAutoSlide, nextMovies, slideInterval]);
 
   return (
     <div
