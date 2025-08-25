@@ -4,7 +4,7 @@ import { Movie, TMDBResponse, DetailMovie } from "@/lib/types/movie";
 const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 const BASE_URL = process.env.NEXT_PUBLIC_TMDB_BASE_URL;
 
-//공통 api 요청 함수
+//공통 api 요청 함수 (영화 데이터 배열 반환)
 export async function fetchTMDBData(
   endpoint: string,
   params: Record<string, string> = {}
@@ -75,7 +75,7 @@ export async function getTopRatedMovies(): Promise<Movie[]> {
     });
   return res;
 }
-//영화 상세 정보 요청 함수
+//영화 상세 정보 요청 함수 (영화 데이터 반환)
 export async function getMovieDetail(id: string): Promise<DetailMovie> {
   if (!API_KEY) throw new Error("TMDB API 키를 설정해주세요!");
   const searchParams = new URLSearchParams({

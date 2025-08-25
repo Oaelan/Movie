@@ -5,10 +5,6 @@ import { FaHeart } from "react-icons/fa";
 interface LikeProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   movieId: number;
 }
-
-//좋아요는 localstorage에 저장해서 구현하는데 isMoundted 체크하기
-//좋아요 버튼만 CSR로 렌더링하기 !!
-
 export default function Like({ className, movieId }: LikeProps) {
   const [isLiked, setIsLiked] = useState(() => {
     if (typeof window !== "undefined") {
