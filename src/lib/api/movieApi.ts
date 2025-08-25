@@ -94,3 +94,28 @@ export async function getMovieDetail(id: string): Promise<DetailMovie> {
     });
   return res;
 }
+//검색어로 영화 검색 함수
+export async function getSearchMovies(
+  query: string,
+  page: number = 1
+): Promise<TMDBResponse> {
+  if (!query.trim()) {
+    return {
+      page: 1,
+      results: [],
+      total_pages: 0,
+      total_results: 0,
+    };
+  }
+
+  const res = await fetchTMDBData("/search/movie", {
+    query: query.trim(),
+    include_adult: "false",
+    page: page.toString(),
+  }).catch((error) => {
+    console.error("영화 검색 패치 오류:", error);
+    throw error;
+  });
+
+  return res;
+}
