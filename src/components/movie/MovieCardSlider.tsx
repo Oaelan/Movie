@@ -26,7 +26,11 @@ export default function MovieCardSlider({
     translateX,
     handleMouseEnter,
     handleMouseLeave,
-  } = useSlider({ moviesCount: moviesCount, movies, sliderWidth: 960 });
+  } = useSlider({
+    moviesCount: moviesCount,
+    movies,
+    sliderWidth: 960,
+  });
 
   return (
     <div

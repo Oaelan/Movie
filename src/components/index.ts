@@ -18,6 +18,12 @@ import SearchInput from "@/components/ui/SearchInput";
 import Rating from "@/components/movie/Rating";
 import MovieCard from "@/components/movie/MovieCard";
 import Navbar from "@/components/layout/Nav";
+import LoadingState from "@/components/ui/LoadingState";
+import ErrorState from "@/components/ui/ErrorState";
+import SearchResultHeader from "@/components/search/SearchResultHeader";
+import SearchResultList from "@/components/search/SearchResultList";
+import FavoritesHeader from "@/components/favorites/FavoritesHeader";
+import FavoritesList from "@/components/favorites/FavoritesList";
 
 export {
   MovieBackdrop,
@@ -40,4 +46,10 @@ export {
   Rating,
   MovieCard,
   Navbar,
+  LoadingState,
+  ErrorState,
+  SearchResultHeader,
+  SearchResultList,
+  FavoritesHeader,
+  FavoritesList,
 };

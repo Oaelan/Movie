@@ -11,7 +11,7 @@ interface MovieDetailPageProps {
 export default async function MovieDetailPage({
   params,
 }: MovieDetailPageProps) {
-  const { id } = await params;
+  const { id } = params;
   const detail: DetailMovie = await getMovieDetail(id);
 
   const IMAGE_BASE_URL = "https://image.tmdb.org/t/p";

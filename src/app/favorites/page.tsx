@@ -1,30 +1,30 @@
 "use client";
-import MovieCard from "@/components/movie/MovieCard";
 import useFavorites from "@/hooks/useFavorites";
+import {
+  LoadingState,
+  ErrorState,
+  FavoritesHeader,
+  FavoritesList,
+} from "@/components";
 
 export default function FavoritesPage() {
-  const { likedMovies } = useFavorites();
+  const { likedMovies, isLoading, error } = useFavorites();
+
+  if (isLoading) {
+    return <LoadingState message="좋아요 목록을 불러오는 중..." />;
+  }
+
+  if (error) {
+    return <ErrorState error={error} />;
+  }
 
   return (
-    <div>
-      <h1 className="text-3xl text-center font-bold text-text mb-8">
-        좋아요 목록 {`(${likedMovies.length + "개"})`}
-      </h1>
-      <div className="grid grid-cols md:grid-cols-4 lg:grid-cols-6 gap-y-10 justify-items-center">
-        {likedMovies.length === 0 ? (
-          <div className="col-span-full text-center py-20">
-            <p className="text-text-muted text-lg mb-4">
-              좋아요 목록이 비어있습니다.
-            </p>
-            <p className="text-text-secondary">
-              영화를 검색하고 좋아요를 눌러보세요!
-            </p>
-          </div>
-        ) : (
-          likedMovies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} className="" />
-          ))
-        )}
+    <div className="min-h-screen bg-primary pt-20 pb-10">
+      <div className="container mx-auto px-4">
+        <FavoritesHeader count={likedMovies.length} />
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 justify-items-center">
+          <FavoritesList movies={likedMovies} />
+        </div>
       </div>
     </div>
   );
