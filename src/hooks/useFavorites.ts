@@ -3,8 +3,12 @@ import { useState, useEffect } from "react";
 import { Movie } from "@/lib/types/movie";
 
 export default function useFavorites() {
-  const [likedMovies, setLikedMovies] = useState<Movie[]>([]);
-  //로컬스토리지에 저장된 좋아요 목록 가져오기
+  const [likedMovieIds, setLikedMovieIds] = useState<string[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // 로컬스토리지에서 좋아요 목록 가져오기
   const getLikedMovieIds = (): string[] => {
     if (typeof window !== "undefined") {
       const likes = localStorage.getItem("Likes");
@@ -12,17 +16,46 @@ export default function useFavorites() {
     }
     return [];
   };
+
+  // 좋아요 목록 ID 업데이트
   useEffect(() => {
-    //좋아요 목록 영화 데이터 가져오기
-    const fetchLikedMovies = async () => {
-      //좋아요 목록으로 영화 데이터 가져오기
-      const likedMovieIds = getLikedMovieIds();
-      const likedMovies: Movie[] = await Promise.all(
-        likedMovieIds.map((id) => getMovieDetail(id))
-      );
-      setLikedMovies(likedMovies);
-    };
-    fetchLikedMovies();
+    const ids = getLikedMovieIds();
+    setLikedMovieIds(ids);
   }, []);
-  return { likedMovies, setLikedMovies };
+
+  // 좋아요 목록 영화 데이터 가져오기
+  useEffect(() => {
+    const fetchAllMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        if (likedMovieIds.length === 0) {
+          setMovies([]);
+          return;
+        }
+
+        const moviePromises = likedMovieIds.map((id) => getMovieDetail(id));
+        const movieData = await Promise.all(moviePromises);
+        setMovies(movieData);
+      } catch (error) {
+        setError("좋아요 영화 데이터를 가져오는 중 오류가 발생했습니다.");
+        console.error("좋아요 영화 데이터 가져오기 실패:", error);
+        setMovies([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAllMovies();
+  }, [likedMovieIds]);
+
+  return {
+    likedMovies: movies,
+    setLikedMovies: setMovies,
+    likedMovieIds,
+    setLikedMovieIds,
+    isLoading,
+    error,
+  };
 }

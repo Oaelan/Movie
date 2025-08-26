@@ -29,14 +29,14 @@ export async function fetchTMDBData(
   return res;
 }
 //최신순 영화 요청 함수
-export async function getLatestMovies(): Promise<Movie[]> {
+export async function getLatestMovies(page: number = 1): Promise<Movie[]> {
   const today = new Date().toISOString().split("T")[0];
   const res = await fetchTMDBData("/discover/movie", {
     sort_by: "release_date.desc",
     "primary_release_date.lte": today,
     "vote_count.gte": "100",
     include_adult: "false",
-    page: "1",
+    page: page.toString(),
   })
     .then((data) => data.results)
     .catch((error) => {
@@ -46,12 +46,12 @@ export async function getLatestMovies(): Promise<Movie[]> {
   return res;
 }
 //인기순 영화 요청 함수
-export async function getPopularMovies(): Promise<Movie[]> {
+export async function getPopularMovies(page: number = 1): Promise<Movie[]> {
   const res = await fetchTMDBData("/discover/movie", {
     sort_by: "popularity.desc",
     include_adult: "false",
     "vote_count.gte": "1000",
-    page: "1",
+    page: page.toString(),
   })
     .then((data) => data.results)
     .catch((error) => {
@@ -61,12 +61,12 @@ export async function getPopularMovies(): Promise<Movie[]> {
   return res;
 }
 //평점순 영화 요청 함수
-export async function getTopRatedMovies(): Promise<Movie[]> {
+export async function getTopRatedMovies(page: number = 1): Promise<Movie[]> {
   const res = await fetchTMDBData("/discover/movie", {
     sort_by: "vote_average.desc",
     include_adult: "false",
     "vote_count.gte": "1000",
-    page: "1",
+    page: page.toString(),
   })
     .then((data) => data.results)
     .catch((error) => {
