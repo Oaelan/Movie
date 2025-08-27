@@ -1,6 +1,7 @@
 import { getMovieDetail } from "@/lib/api/movieApi";
 import { DetailMovie } from "@/lib/types/movie";
 import { MovieBackdrop, MoviePoster, MovieContent } from "@/components";
+import { getImageUrl } from "@/lib/utils/imageUtils";
 
 interface MovieDetailPageProps {
   params: {
@@ -14,13 +15,8 @@ export default async function MovieDetailPage({
   const { id } = params;
   const detail: DetailMovie = await getMovieDetail(id);
 
-  const IMAGE_BASE_URL = "https://image.tmdb.org/t/p";
-  const posterUrl = detail.poster_path
-    ? `${IMAGE_BASE_URL}/w500${detail.poster_path}`
-    : null;
-  const backdropUrl = detail.backdrop_path
-    ? `${IMAGE_BASE_URL}/w1280${detail.backdrop_path}`
-    : null;
+  const posterUrl = getImageUrl(detail.poster_path, "w500") || null;
+  const backdropUrl = getImageUrl(detail.backdrop_path, "w1280") || null;
 
   return (
     <div className="min-h-screen bg-primary">

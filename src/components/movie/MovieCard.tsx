@@ -6,17 +6,15 @@ import Link from "next/link";
 import { Movie } from "@/lib/types/movie";
 import { LinkHTMLAttributes } from "react";
 import Like from "@/components/ui/Like";
+import { getImageUrl } from "@/lib/utils/imageUtils";
 
 interface MovieCardProps extends LinkHTMLAttributes<HTMLAnchorElement> {
   movie: Movie;
 }
 
 export default function MovieCard({ movie, ...props }: MovieCardProps) {
-  const IMAGE_BASE_URL = "https://image.tmdb.org/t/p";
   // TMDB 이미지 URL 생성
-  const posterUrl = movie.poster_path
-    ? `${IMAGE_BASE_URL}/w500${movie.poster_path}`
-    : null;
+  const posterUrl = getImageUrl(movie.poster_path, "w500") || null;
 
   return (
     <Link
