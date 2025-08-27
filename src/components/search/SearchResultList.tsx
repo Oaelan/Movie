@@ -1,15 +1,24 @@
+"use client";
 import { Movie } from "@/lib/types/movie";
 import { MovieCard } from "@/components";
+import InfiniteScrollTrigger from "./InfiniteScrollTrigger";
 
 interface SearchResultListProps {
   movies: Movie[];
   searchQuery: string;
+  hasMore: boolean;
+  isLoading: boolean;
+  onLoadMore: () => void;
 }
 
 export default function SearchResultList({
   movies,
   searchQuery,
+  hasMore,
+  isLoading,
+  onLoadMore,
 }: SearchResultListProps) {
+  // 초기 검색 결과가 없을 때
   if (movies.length === 0) {
     return (
       <div className="text-center py-20">
@@ -22,10 +31,20 @@ export default function SearchResultList({
   }
 
   return (
-    <div className="grid grid-cols md:grid-cols-4 lg:grid-cols-6 gap-4 justify-items-center">
-      {movies.map((movie) => (
-        <MovieCard key={movie.id} movie={movie} />
-      ))}
+    <div className="space-y-4">
+      {/* 영화 카드 그리드 */}
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 justify-items-center">
+        {movies.map((movie) => (
+          <MovieCard key={movie.id} movie={movie} />
+        ))}
+      </div>
+
+      {/* 무한 스크롤 트리거 영역 */}
+      <InfiniteScrollTrigger
+        onLoadMore={onLoadMore}
+        hasMore={hasMore}
+        isLoading={isLoading}
+      />
     </div>
   );
 }

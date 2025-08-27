@@ -24,6 +24,7 @@ import SearchResultHeader from "@/components/search/SearchResultHeader";
 import SearchResultList from "@/components/search/SearchResultList";
 import FavoritesHeader from "@/components/favorites/FavoritesHeader";
 import FavoritesList from "@/components/favorites/FavoritesList";
+import InfiniteScrollTrigger from "@/components/search/InfiniteScrollTrigger";
 
 export {
   MovieBackdrop,
@@ -52,4 +53,5 @@ export {
   SearchResultList,
   FavoritesHeader,
   FavoritesList,
+  InfiniteScrollTrigger,
 };

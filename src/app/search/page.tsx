@@ -1,29 +1,21 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import { getSearchMovies } from "@/lib/api/movieApi";
-import useFetch from "@/hooks/useFetch";
-import { TMDBResponse } from "@/lib/types/movie";
 import {
   SearchResultHeader,
   SearchResultList,
   LoadingState,
   ErrorState,
 } from "@/components";
+import useInfiniteFetch from "@/hooks/useInfiniteFetch";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("query") || "";
 
-  const {
-    data: searchResults,
-    isLoading,
-    error,
-  } = useFetch<TMDBResponse, string>(getSearchMovies, searchQuery);
+  const { movies, isLoading, error, hasMore, loadMore, totalResults } =
+    useInfiniteFetch(searchQuery);
 
-  // 검색 결과 추출
-  const movies = searchResults?.results || [];
-
-  if (isLoading) {
+  if (isLoading && movies.length === 0) {
     return <LoadingState message="검색 중..." />;
   }
 
@@ -36,9 +28,15 @@ export default function SearchPage() {
       <div className="container mx-auto px-4">
         <SearchResultHeader
           searchQuery={searchQuery}
-          resultCount={movies.length}
+          resultCount={totalResults}
         />
-        <SearchResultList movies={movies} searchQuery={searchQuery} />
+        <SearchResultList
+          movies={movies}
+          searchQuery={searchQuery}
+          hasMore={hasMore}
+          isLoading={isLoading}
+          onLoadMore={loadMore}
+        />
       </div>
     </div>
   );
