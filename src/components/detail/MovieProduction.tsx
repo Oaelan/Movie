@@ -5,16 +5,22 @@ interface MovieProductionProps {
     name: string;
     origin_country: string;
   }>;
+  translations: {
+    (key: string): string;
+  };
 }
 
 export default function MovieProduction({
   production_companies,
+  translations,
 }: MovieProductionProps) {
   if (!production_companies || production_companies.length === 0) return null;
 
   return (
     <div className="space-y-2">
-      <h2 className="text-xl font-semibold text-text">제작사</h2>
+      <h2 className="text-xl font-semibold text-text">
+        {translations("production")}
+      </h2>
       <div className="flex flex-wrap gap-2">
         {production_companies.map((company) => (
           <span

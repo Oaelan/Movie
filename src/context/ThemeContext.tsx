@@ -1,5 +1,4 @@
 "use client";
-import { setThemeCookieClient } from "@/lib/utils/cookies";
 import {
   createContext,
   useContext,
@@ -7,6 +6,7 @@ import {
   useEffect,
   ReactNode,
 } from "react";
+import { setCookieClient } from "@/lib/utils/cookies";
 
 export type Theme = "light" | "dark";
 
@@ -33,7 +33,7 @@ export default function ThemeProvider({
 
   // 테마 변경 시 쿠키 저장
   useEffect(() => {
-    setThemeCookieClient(theme);
+    setCookieClient("theme", theme);
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 

@@ -1,9 +1,11 @@
+import { Language } from "@/i18n/config";
 import {
   getLatestMovies,
   getPopularMovies,
   getTopRatedMovies,
 } from "@/lib/api/movieApi";
 import { Movie } from "@/lib/types/movie";
+import { getLocale } from "next-intl/server";
 
 interface HomeDataResult {
   latestMovies: Movie[];
@@ -13,6 +15,7 @@ interface HomeDataResult {
 }
 
 export async function fetchHomeData(): Promise<HomeDataResult> {
+  const locale = await getLocale();
   let latestMovies: Movie[] = [];
   let popularMovies: Movie[] = [];
   let topRatedMovies: Movie[] = [];
@@ -21,9 +24,9 @@ export async function fetchHomeData(): Promise<HomeDataResult> {
   try {
     // 서버에서 데이터 페칭
     const [latest, popular, topRated] = await Promise.all([
-      getLatestMovies(),
-      getPopularMovies(),
-      getTopRatedMovies(),
+      getLatestMovies(1, locale as Language),
+      getPopularMovies(1, locale as Language),
+      getTopRatedMovies(1, locale as Language),
     ]);
 
     latestMovies = latest || [];

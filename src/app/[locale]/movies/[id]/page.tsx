@@ -2,6 +2,8 @@ import { getMovieDetail } from "@/lib/api/movieApi";
 import { DetailMovie } from "@/lib/types/movie";
 import { MovieBackdrop, MoviePoster, MovieContent } from "@/components";
 import { getImageUrl } from "@/lib/utils/imageUtils";
+import { getLocale, getTranslations } from "next-intl/server";
+import { Language } from "@/i18n/config";
 
 interface MovieDetailPageProps {
   params: {
@@ -13,10 +15,11 @@ export default async function MovieDetailPage({
   params,
 }: MovieDetailPageProps) {
   const { id } = params;
-  const detail: DetailMovie = await getMovieDetail(id);
-
+  const locale = await getLocale();
+  const detail: DetailMovie = await getMovieDetail(id, locale as Language);
   const posterUrl = getImageUrl(detail.poster_path, "w500") || null;
   const backdropUrl = getImageUrl(detail.backdrop_path, "w1280") || null;
+  const t = await getTranslations("movie");
 
   return (
     <div className="min-h-screen bg-primary">
@@ -31,7 +34,7 @@ export default async function MovieDetailPage({
             <MoviePoster posterUrl={posterUrl} title={detail.title} />
 
             {/* 영화 정보 */}
-            <MovieContent movie={detail} />
+            <MovieContent movie={detail} translations={t} />
           </div>
         </div>
       </div>

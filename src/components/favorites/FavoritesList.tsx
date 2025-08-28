@@ -3,18 +3,21 @@ import { MovieCard } from "@/components";
 
 interface FavoritesListProps {
   movies: Movie[];
+  translations: {
+    (key: string): string;
+  };
 }
 
-export default function FavoritesList({ movies }: FavoritesListProps) {
+export default function FavoritesList({
+  movies,
+  translations,
+}: FavoritesListProps) {
+  // 로딩이 완료되고 데이터가 없으면 빈 상태 표시
   if (movies.length === 0) {
     return (
       <div className="col-span-full text-center py-20">
-        <p className="text-text-muted text-lg mb-4">
-          좋아요 목록이 비어있습니다.
-        </p>
-        <p className="text-text-secondary">
-          영화를 검색하고 좋아요를 눌러보세요!
-        </p>
+        <p className="text-text-muted text-lg mb-4">{translations("empty")}</p>
+        <p className="text-text-secondary">{translations("suggestion")}</p>
       </div>
     );
   }

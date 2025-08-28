@@ -25,6 +25,8 @@ import SearchResultList from "@/components/search/SearchResultList";
 import FavoritesHeader from "@/components/favorites/FavoritesHeader";
 import FavoritesList from "@/components/favorites/FavoritesList";
 import InfiniteScrollTrigger from "@/components/search/InfiniteScrollTrigger";
+import ThemeToggle from "@/components/ui/ThemeToggle";
+import LanguageSelector from "@/components/ui/LanguageSelector";
 
 export {
   MovieBackdrop,
@@ -54,4 +56,6 @@ export {
   FavoritesHeader,
   FavoritesList,
   InfiniteScrollTrigger,
+  ThemeToggle,
+  LanguageSelector,
 };

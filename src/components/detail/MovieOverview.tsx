@@ -1,13 +1,21 @@
 interface MovieOverviewProps {
   overview: string;
+  translations: {
+    (key: string): string;
+  };
 }
 
-export default function MovieOverview({ overview }: MovieOverviewProps) {
+export default function MovieOverview({
+  overview,
+  translations,
+}: MovieOverviewProps) {
   return (
     <div className="space-y-2">
-      <h2 className="text-xl font-semibold text-text">줄거리</h2>
+      <h2 className="text-xl font-semibold text-text">
+        {translations("overview")}
+      </h2>
       <p className="text-text leading-relaxed">
-        {overview || "줄거리 정보가 없습니다."}
+        {overview || translations("noOverview")}
       </p>
     </div>
   );

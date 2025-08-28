@@ -1,4 +1,6 @@
 import { Movie, TMDBResponse, DetailMovie } from "@/lib/types/movie";
+import { getTMDBLocale } from "@/lib/utils/localeUtils";
+import { Language } from "@/i18n/config";
 
 // TMDB API 기본 설정
 const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
@@ -7,14 +9,15 @@ const BASE_URL = process.env.NEXT_PUBLIC_TMDB_BASE_URL;
 //공통 api 요청 함수 (영화 데이터 배열 반환)
 export async function fetchTMDBData(
   endpoint: string,
-  params: Record<string, string> = {}
+  params: Record<string, string> = {},
+  locale: Language = "ko"
 ): Promise<TMDBResponse> {
   if (!API_KEY) throw new Error("TMDB API 키를 설정해주세요!");
 
   const searchParams = new URLSearchParams({
     ...params,
     api_key: API_KEY,
-    language: "ko-KR",
+    language: getTMDBLocale(locale),
   });
   const url = `${BASE_URL}${endpoint}?${searchParams}`;
   const res = await fetch(url)
@@ -29,15 +32,22 @@ export async function fetchTMDBData(
   return res;
 }
 //최신순 영화 요청 함수
-export async function getLatestMovies(page: number = 1): Promise<Movie[]> {
+export async function getLatestMovies(
+  page: number = 1,
+  locale: Language = "ko"
+): Promise<Movie[]> {
   const today = new Date().toISOString().split("T")[0];
-  const res = await fetchTMDBData("/discover/movie", {
-    sort_by: "release_date.desc",
-    "primary_release_date.lte": today,
-    "vote_count.gte": "100",
-    include_adult: "false",
-    page: page.toString(),
-  })
+  const res = await fetchTMDBData(
+    "/discover/movie",
+    {
+      sort_by: "release_date.desc",
+      "primary_release_date.lte": today,
+      "vote_count.gte": "100",
+      include_adult: "false",
+      page: page.toString(),
+    },
+    locale
+  )
     .then((data) => data.results)
     .catch((error) => {
       console.error("최신순 영화 패치 오류:", error);
@@ -46,13 +56,20 @@ export async function getLatestMovies(page: number = 1): Promise<Movie[]> {
   return res;
 }
 //인기순 영화 요청 함수
-export async function getPopularMovies(page: number = 1): Promise<Movie[]> {
-  const res = await fetchTMDBData("/discover/movie", {
-    sort_by: "popularity.desc",
-    include_adult: "false",
-    "vote_count.gte": "1000",
-    page: page.toString(),
-  })
+export async function getPopularMovies(
+  page: number = 1,
+  locale: Language = "ko"
+): Promise<Movie[]> {
+  const res = await fetchTMDBData(
+    "/discover/movie",
+    {
+      sort_by: "popularity.desc",
+      include_adult: "false",
+      "vote_count.gte": "1000",
+      page: page.toString(),
+    },
+    locale
+  )
     .then((data) => data.results)
     .catch((error) => {
       console.error("인기순 영화 패치 오류:", error);
@@ -61,13 +78,20 @@ export async function getPopularMovies(page: number = 1): Promise<Movie[]> {
   return res;
 }
 //평점순 영화 요청 함수
-export async function getTopRatedMovies(page: number = 1): Promise<Movie[]> {
-  const res = await fetchTMDBData("/discover/movie", {
-    sort_by: "vote_average.desc",
-    include_adult: "false",
-    "vote_count.gte": "1000",
-    page: page.toString(),
-  })
+export async function getTopRatedMovies(
+  page: number = 1,
+  locale: Language = "ko"
+): Promise<Movie[]> {
+  const res = await fetchTMDBData(
+    "/discover/movie",
+    {
+      sort_by: "vote_average.desc",
+      include_adult: "false",
+      "vote_count.gte": "1000",
+      page: page.toString(),
+    },
+    locale
+  )
     .then((data) => data.results)
     .catch((error) => {
       console.error("평점순 영화 패치 오류:", error);
@@ -76,11 +100,14 @@ export async function getTopRatedMovies(page: number = 1): Promise<Movie[]> {
   return res;
 }
 //영화 상세 정보 요청 함수 (영화 데이터 반환)
-export async function getMovieDetail(id: string): Promise<DetailMovie> {
+export async function getMovieDetail(
+  id: string,
+  locale: Language = "ko"
+): Promise<DetailMovie> {
   if (!API_KEY) throw new Error("TMDB API 키를 설정해주세요!");
   const searchParams = new URLSearchParams({
     api_key: API_KEY,
-    language: "ko-KR",
+    language: getTMDBLocale(locale),
   });
   const url = `${BASE_URL}/movie/${id}?${searchParams}`;
   const res = await fetch(url)
@@ -97,7 +124,8 @@ export async function getMovieDetail(id: string): Promise<DetailMovie> {
 //검색어로 영화 검색 함수
 export async function getSearchMovies(
   query: string,
-  page: number = 1
+  page: number = 1,
+  locale: Language = "ko"
 ): Promise<TMDBResponse> {
   if (!query.trim()) {
     return {
@@ -108,11 +136,15 @@ export async function getSearchMovies(
     };
   }
 
-  const res = await fetchTMDBData("/search/movie", {
-    query: query.trim(),
-    include_adult: "false",
-    page: page.toString(),
-  }).catch((error) => {
+  const res = await fetchTMDBData(
+    "/search/movie",
+    {
+      query: query.trim(),
+      include_adult: "false",
+      page: page.toString(),
+    },
+    locale
+  ).catch((error) => {
     console.error("영화 검색 패치 오류:", error);
     throw error;
   });
