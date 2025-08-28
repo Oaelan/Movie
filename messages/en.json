@@ -1,0 +1,58 @@
+{
+  "common": {
+    "search": "Search",
+    "error": "An error occurred",
+    "retry": "Please try again.",
+    "movie": "Movie"
+  },
+  "home": {
+    "title": "Search for any movie you want!",
+    "latest": "Latest",
+    "popular": "Popular",
+    "topRated": "Top Rated",
+    "loading": "Loading movie data...",
+    "errorMessage": "There was a problem loading movie data. Please refresh the page."
+  },
+  "search": {
+    "placeholder": "Search for movies",
+    "noResults": "No search results for \"{query}\".",
+    "suggestion": "Try searching with different keywords.",
+    "loading": "Searching...",
+    "loadingMore": "Loading more movies...",
+    "results": "Search Results"
+  },
+  "favorites": {
+    "title": "Favorites",
+    "empty": "Your favorites list is empty.",
+    "suggestion": "Search for movies and try liking them!",
+    "loading": "Loading favorites...",
+    "nav": "Favorites"
+  },
+  "movie": {
+    "rating": "Rating",
+    "releaseDate": "Release Date",
+    "runtime": "Runtime",
+    "budget": "Budget",
+    "revenue": "Revenue",
+    "genres": "Genres",
+    "overview": "Overview",
+    "production": "Production",
+    "cast": "Cast",
+    "director": "Director",
+    "imageLoading": "Image Loading",
+    "votes": "votes",
+    "hours": "hours",
+    "minutes": "minutes",
+    "noOverview": "No overview information."
+  },
+  "nav": {
+    "home": "Home",
+    "favorites": "Favorites",
+    "language": "Language",
+    "dark": "Dark",
+    "light": "Light",
+    "search": {
+      "placeholder": "Search for movies"
+    }
+  }
+}

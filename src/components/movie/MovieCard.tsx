@@ -7,6 +7,7 @@ import { Movie } from "@/lib/types/movie";
 import { LinkHTMLAttributes } from "react";
 import Like from "@/components/ui/Like";
 import { getImageUrl } from "@/lib/utils/imageUtils";
+import { useLocale, useTranslations } from "next-intl";
 
 interface MovieCardProps extends LinkHTMLAttributes<HTMLAnchorElement> {
   movie: Movie;
@@ -15,11 +16,12 @@ interface MovieCardProps extends LinkHTMLAttributes<HTMLAnchorElement> {
 export default function MovieCard({ movie, ...props }: MovieCardProps) {
   // TMDB 이미지 URL 생성
   const posterUrl = getImageUrl(movie.poster_path, "w500") || null;
-
+  const locale = useLocale();
+  const t = useTranslations("movie");
   return (
     <Link
       {...props}
-      href={`/movies/${movie.id}`}
+      href={`/${locale}/movies/${movie.id}`}
       className="relative w-44 h-76 rounded-lg border-1 border-border-accent
     overflow-hidden flex flex-col justify-center items-center
       pb-4 gap-1 hover:scale-105 transition-all duration-1000 ease-linear cursor-pointer"
@@ -44,7 +46,7 @@ export default function MovieCard({ movie, ...props }: MovieCardProps) {
       ) : (
         <div className="w-full h-64 flex-shrink-0 bg-secondary flex items-center justify-center">
           <p className="text-text-secondary text-sm text-center px-2">
-            이미지 준비중
+            {t("imageLoading")}
           </p>
         </div>
       )}

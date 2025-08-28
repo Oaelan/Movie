@@ -1,8 +1,11 @@
 import { getMovieDetail } from "@/lib/api/movieApi";
 import { useState, useEffect } from "react";
 import { Movie } from "@/lib/types/movie";
+import { useLocale } from "next-intl";
+import { Language } from "@/i18n/config";
 
 export default function useFavorites() {
+  const locale = useLocale();
   const [likedMovieIds, setLikedMovieIds] = useState<string[]>([]);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -17,25 +20,32 @@ export default function useFavorites() {
     return [];
   };
 
-  // 좋아요 목록 ID 업데이트
+  // 좋아요 목록 ID 업데이트 및 초기 데이터 설정
   useEffect(() => {
     const ids = getLikedMovieIds();
     setLikedMovieIds(ids);
+
+    // 좋아요 목록이 비어있으면 바로 로딩 완료
+    if (ids.length === 0) {
+      setIsLoading(false);
+    }
   }, []);
 
   // 좋아요 목록 영화 데이터 가져오기
   useEffect(() => {
     const fetchAllMovies = async () => {
+      // 좋아요 목록이 비어있으면 패칭하지 않음
+      if (likedMovieIds.length === 0) {
+        return;
+      }
+
       try {
         setIsLoading(true);
         setError(null);
 
-        if (likedMovieIds.length === 0) {
-          setMovies([]);
-          return;
-        }
-
-        const moviePromises = likedMovieIds.map((id) => getMovieDetail(id));
+        const moviePromises = likedMovieIds.map((id) =>
+          getMovieDetail(id, locale as Language)
+        );
         const movieData = await Promise.all(moviePromises);
         setMovies(movieData);
       } catch (error) {
@@ -48,7 +58,7 @@ export default function useFavorites() {
     };
 
     fetchAllMovies();
-  }, [likedMovieIds]);
+  }, [likedMovieIds, locale]);
 
   return {
     likedMovies: movies,

@@ -2,15 +2,22 @@ import { DetailMovie } from "@/lib/types/movie";
 
 interface MovieMetaInfoProps {
   movie: DetailMovie;
+  translations: {
+    (key: string): string;
+  };
 }
 
-export default function MovieMetaInfo({ movie }: MovieMetaInfoProps) {
+export default function MovieMetaInfo({
+  movie,
+  translations,
+}: MovieMetaInfoProps) {
   return (
     <div className="flex flex-wrap gap-4 text-sm text-text-muted">
       <span>{movie.release_date}</span>
       {movie.runtime > 0 && (
         <span>
-          {Math.floor(movie.runtime / 60)}시간 {movie.runtime % 60}분
+          {Math.floor(movie.runtime / 60)} {translations("hours")}{" "}
+          {movie.runtime % 60} {translations("minutes")}
         </span>
       )}
       <span>{movie.status}</span>

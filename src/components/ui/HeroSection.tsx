@@ -22,7 +22,7 @@ function HeroSection({ title, className, ...props }: HeroSectionProps) {
       />
 
       {/* 제목 */}
-      <h1 className="text-6xl font-bold text-center text-primary text-shadow-lg relative z-10">
+      <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-center text-primary text-shadow-lg relative z-10">
         {title}
       </h1>
     </div>

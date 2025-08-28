@@ -3,14 +3,19 @@ import Rating from "@/components/movie/Rating";
 
 interface MovieRatingProps {
   movie: DetailMovie;
+  translations: {
+    (key: string): string;
+  };
 }
 
-export default function MovieRating({ movie }: MovieRatingProps) {
+export default function MovieRating({ movie, translations }: MovieRatingProps) {
   return (
     <>
       {/* 데스크톱용 평점 */}
       <div className="flex-col gap-3 hidden md:flex">
-        <h2 className="text-xl font-semibold text-text">평점</h2>
+        <h2 className="text-xl font-semibold text-text">
+          {translations("rating")}
+        </h2>
         <div className="flex items-center gap-3">
           <Rating vote_average={movie.vote_average} />
           <div className="flex flex-col">
@@ -18,7 +23,7 @@ export default function MovieRating({ movie }: MovieRatingProps) {
               {movie.vote_average.toFixed(1) + " / 10.0"}
             </span>
             <span className="text-xs text-text-muted">
-              {movie.vote_count.toLocaleString()}명 투표
+              {movie.vote_count.toLocaleString()} {translations("votes")}
             </span>
           </div>
         </div>
@@ -26,7 +31,9 @@ export default function MovieRating({ movie }: MovieRatingProps) {
 
       {/* 모바일용 평점 */}
       <div className="flex-col gap-3 flex md:hidden">
-        <h2 className="text-xl font-semibold text-text">평점</h2>
+        <h2 className="text-xl font-semibold text-text">
+          {translations("rating")}
+        </h2>
         <div className="flex items-center gap-3">
           <Rating vote_average={movie.vote_average} />
           <div className="flex flex-col">
@@ -34,7 +41,7 @@ export default function MovieRating({ movie }: MovieRatingProps) {
               {movie.vote_average.toFixed(1) + " / 10.0"}
             </span>
             <span className="text-xs text-text-muted">
-              {movie.vote_count.toLocaleString()}명 투표
+              {movie.vote_count.toLocaleString()} {translations("votes")}
             </span>
           </div>
         </div>

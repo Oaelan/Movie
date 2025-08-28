@@ -1,0 +1,58 @@
+{
+  "common": {
+    "search": "검색",
+    "error": "오류가 발생했습니다",
+    "retry": "다시 시도해주세요.",
+    "movie": "Movie"
+  },
+  "home": {
+    "title": "찾고 싶은 영화를 마음껏 검색하세요!",
+    "latest": "최신순",
+    "popular": "인기순",
+    "topRated": "평점순",
+    "loading": "영화 데이터를 불러오는 중입니다...",
+    "errorMessage": "영화 데이터를 불러오는 중 문제가 발생했습니다. 잠시 후 새로고침해주세요."
+  },
+  "search": {
+    "placeholder": "영화를 검색하세요",
+    "noResults": "\"{query}\"에 대한 검색 결과가 없습니다.",
+    "suggestion": "다른 키워드로 검색해보세요.",
+    "loading": "검색 중입니다...",
+    "loadingMore": "더 많은 영화를 불러오는 중...",
+    "results": "검색 결과"
+  },
+  "favorites": {
+    "title": "관심 목록",
+    "empty": "좋아요 목록이 비어있습니다.",
+    "suggestion": "영화를 검색하고 좋아요를 눌러보세요!",
+    "loading": "관심 목록을 불러오는 중입니다...",
+    "nav": "관심"
+  },
+  "movie": {
+    "rating": "평점",
+    "releaseDate": "개봉일",
+    "runtime": "상영시간",
+    "budget": "제작비",
+    "revenue": "수익",
+    "genres": "장르",
+    "overview": "줄거리",
+    "production": "제작사",
+    "cast": "출연진",
+    "director": "감독",
+    "imageLoading": "이미지 준비중",
+    "votes": "명 투표",
+    "hours": "시간",
+    "minutes": "분",
+    "noOverview": "줄거리 정보가 없습니다."
+  },
+  "nav": {
+    "home": "홈",
+    "favorites": "관심",
+    "language": "언어",
+    "dark": "다크",
+    "light": "라이트",
+    "search": {
+      "placeholder": "영화를 검색하세요"
+    }
+  }
+}

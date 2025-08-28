@@ -1,11 +1,17 @@
 interface FavoritesHeaderProps {
   count: number;
+  translations: {
+    (key: string): string;
+  };
 }
 
-export default function FavoritesHeader({ count }: FavoritesHeaderProps) {
+export default function FavoritesHeader({
+  count,
+  translations,
+}: FavoritesHeaderProps) {
   return (
     <h1 className="text-3xl text-center font-bold text-text mb-8">
-      좋아요 목록 {`(${count}개)`}
+      {translations("title")} {`(${count})`}
     </h1>
   );
 }
