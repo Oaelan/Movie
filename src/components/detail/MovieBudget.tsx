@@ -15,7 +15,7 @@ export default function MovieBudget({ movie, translations }: MovieBudgetProps) {
       {movie.budget > 0 && (
         <div className="space-y-1">
           <h3 className="text-lg font-semibold text-text">
-            {translations("budget")}
+            {translations("movie.budget")}
           </h3>
           <p className="text-text-muted">${movie.budget.toLocaleString()}</p>
         </div>
@@ -23,7 +23,7 @@ export default function MovieBudget({ movie, translations }: MovieBudgetProps) {
       {movie.revenue > 0 && (
         <div className="space-y-1">
           <h3 className="text-lg font-semibold text-text">
-            {translations("revenue")}
+            {translations("movie.revenue")}
           </h3>
           <p className="text-text-muted">${movie.revenue.toLocaleString()}</p>
         </div>

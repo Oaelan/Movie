@@ -47,6 +47,10 @@ TMDB API를 사용하여 영화 검색, 상세 정보 조회, 즐겨찾기 기�
 - **Platform**: Vercel
 - **Environment**: Node.js
 
+## CSS 최적화 전략
+
+이 프로젝트는 **Tailwind CSS @apply**를 사용하여 CSS를 최적화합니다.
+
 ## 시작하기
 
 ### 1. 프로젝트 클론

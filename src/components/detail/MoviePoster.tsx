@@ -3,9 +3,16 @@ import Image from "next/image";
 interface MoviePosterProps {
   posterUrl: string | null;
   title: string;
+  translations: {
+    (key: string): string;
+  };
 }
 
-export default function MoviePoster({ posterUrl, title }: MoviePosterProps) {
+export default function MoviePoster({
+  posterUrl,
+  title,
+  translations,
+}: MoviePosterProps) {
   return (
     <div className="flex-shrink-0">
       {posterUrl ? (
@@ -20,7 +27,9 @@ export default function MoviePoster({ posterUrl, title }: MoviePosterProps) {
         </div>
       ) : (
         <div className="w-80 h-96 bg-secondary rounded-lg flex items-center justify-center shadow-2xl">
-          <p className="text-text-secondary text-center px-4">이미지 준비중</p>
+          <p className="text-text-secondary text-center px-4">
+            {translations("movie.imageLoading")}
+          </p>
         </div>
       )}
     </div>

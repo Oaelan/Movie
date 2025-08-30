@@ -11,7 +11,7 @@ export default function FavoritesHeader({
 }: FavoritesHeaderProps) {
   return (
     <h1 className="text-3xl text-center font-bold text-text mb-8">
-      {translations("title")} {`(${count})`}
+      {translations("favorites.title")} {`(${count})`}
     </h1>
   );
 }

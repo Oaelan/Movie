@@ -18,12 +18,8 @@ export default function SearchInput({ translations }: SearchInputProps) {
       <input
         type="text"
         value={query}
-        placeholder={translations("search.placeholder")}
-        className="w-full px-4 py-3 bg-elevated border border-border rounded-lg
-                  text-text placeholder-text-muted shadow-sm
-                  focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent
-                  hover:border-border-accent hover:shadow-md
-                  transition-all duration-200"
+        placeholder={translations("nav.search.placeholder")}
+        className="search-input"
         onChange={handleChange}
       />
     </form>

@@ -1,10 +1,8 @@
 interface LoadingStateProps {
-  message?: string;
+  message: string;
 }
 
-export default function LoadingState({
-  message = "로딩 중...",
-}: LoadingStateProps) {
+export default function LoadingState({ message }: LoadingStateProps) {
   return (
     <div className="min-h-screen bg-primary pt-20">
       <div className="container mx-auto px-4">

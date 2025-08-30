@@ -16,7 +16,7 @@ export default function Dropdown({ options, value, onChange }: DropdownProps) {
       <select
         value={value}
         onChange={(e) => onChange?.(e.target.value as Language)}
-        className="w-full pl-10 pr-8 py-2 text-sm bg-elevated border border-border rounded-md text-text hover:bg-secondary transition-colors duration-200 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+        className="dropdown-select"
       >
         {options.map((option) => (
           <option

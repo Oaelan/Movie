@@ -3,7 +3,8 @@
     "search": "검색",
     "error": "오류가 발생했습니다",
     "retry": "다시 시도해주세요.",
-    "movie": "Movie"
+    "movie": "Movie",
+    "loading": "로딩 중..."
   },
   "home": {
     "title": "찾고 싶은 영화를 마음껏 검색하세요!",
@@ -19,7 +20,8 @@
     "suggestion": "다른 키워드로 검색해보세요.",
     "loading": "검색 중입니다...",
     "loadingMore": "더 많은 영화를 불러오는 중...",
-    "results": "검색 결과"
+    "results": "검색 결과",
+    "find": "개의 영화를 찾았습니다."
   },
   "favorites": {
     "title": "관심 목록",
@@ -49,8 +51,11 @@
     "home": "홈",
     "favorites": "관심",
     "language": "언어",
-    "dark": "다크",
-    "light": "라이트",
+    "theme": {
+      "dark": "다크",
+      "light": "라이트"
+    },
+
     "search": {
       "placeholder": "영화를 검색하세요"
     }

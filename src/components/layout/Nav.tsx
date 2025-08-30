@@ -6,8 +6,7 @@ import { ThemeToggle, LanguageSelector, SearchInput } from "@/components";
 
 export default function Nav() {
   const locale = useLocale();
-  const t = useTranslations("nav");
-  console.log(locale);
+  const translations = useTranslations("");
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-primary text-text flex flex-col">
@@ -24,24 +23,21 @@ export default function Nav() {
 
           {/* 즐겨찾기 버튼 - 아이콘과 함께 */}
           <li>
-            <Link
-              href={`/${locale}/favorites`}
-              className="flex items-center gap-2 text-text-secondary transition-colors duration-200 px-3 py-2 rounded-md hover:bg-secondary"
-            >
+            <Link href={`/${locale}/favorites`} className="nav-menu-hover">
               <FaHeart className="w-4 h-4 text-red-500" />
               <p className="text-sm font-medium hidden md:inline">
-                {t("favorites")}
+                {translations("nav.favorites")}
               </p>
             </Link>
           </li>
 
           <li>
-            <ThemeToggle translations={t} />
+            <ThemeToggle translations={translations} />
           </li>
         </ul>
       </div>
       <div className="px-8 py-4 bg-secondary">
-        <SearchInput translations={t} />
+        <SearchInput translations={translations} />
       </div>
     </nav>
   );

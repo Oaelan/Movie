@@ -15,7 +15,7 @@ export default function MovieOverview({
         {translations("overview")}
       </h2>
       <p className="text-text leading-relaxed">
-        {overview || translations("noOverview")}
+        {overview || translations("movie.noOverview")}
       </p>
     </div>
   );
