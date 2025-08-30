@@ -19,7 +19,7 @@ export default function MovieProduction({
   return (
     <div className="space-y-2">
       <h2 className="text-xl font-semibold text-text">
-        {translations("production")}
+        {translations("movie.production")}
       </h2>
       <div className="flex flex-wrap gap-2">
         {production_companies.map((company) => (

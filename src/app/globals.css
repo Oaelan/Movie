@@ -63,11 +63,36 @@
   --color-action-secondary: #ffed4e;
   --color-action-hover: #fff200;
 }
-.rating_bg {
-  background: linear-gradient(
-    to right,
-    rgba(26, 26, 26, 0.8),
-    rgba(42, 42, 42, 0.8),
-    rgba(58, 58, 58, 0.8)
-  );
+
+@layer components {
+  /* 반응형 그리드 레이아웃 */
+  .movie-grid {
+    @apply grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6 justify-items-center;
+  }
+
+  /* 드롭다운 셀렉트 */
+  .dropdown-select {
+    @apply w-full pl-10 pr-8 py-2 text-sm bg-elevated border border-border rounded-md 
+           text-text hover:bg-secondary transition-colors duration-200 
+           appearance-none cursor-pointer focus:outline-none focus:ring-2 
+           focus:ring-accent focus:border-transparent;
+  }
+  .search-input {
+    @apply w-full px-4 py-3 bg-elevated border border-border rounded-lg
+                  text-text placeholder-text-muted shadow-sm
+                  focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent
+                  hover:border-border-accent hover:shadow-md
+                  transition-all duration-200;
+  }
+  .rating_bg {
+    background: linear-gradient(
+      to right,
+      rgba(26, 26, 26, 0.8),
+      rgba(42, 42, 42, 0.8),
+      rgba(58, 58, 58, 0.8)
+    );
+  }
+  .nav-menu-hover {
+    @apply flex items-center gap-2 text-text-secondary transition-colors duration-200 px-3 py-2 rounded-md hover:bg-secondary;
+  }
 }

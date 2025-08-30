@@ -17,7 +17,7 @@ export default function MovieCard({ movie, ...props }: MovieCardProps) {
   // TMDB 이미지 URL 생성
   const posterUrl = getImageUrl(movie.poster_path, "w500") || null;
   const locale = useLocale();
-  const t = useTranslations("movie");
+  const translations = useTranslations("");
   return (
     <Link
       {...props}
@@ -46,7 +46,7 @@ export default function MovieCard({ movie, ...props }: MovieCardProps) {
       ) : (
         <div className="w-full h-64 flex-shrink-0 bg-secondary flex items-center justify-center">
           <p className="text-text-secondary text-sm text-center px-2">
-            {t("imageLoading")}
+            {translations("movie.imageLoading")}
           </p>
         </div>
       )}

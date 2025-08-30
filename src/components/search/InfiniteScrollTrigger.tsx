@@ -5,11 +5,15 @@ interface InfiniteScrollTriggerProps {
   onLoadMore: () => void;
   hasMore: boolean;
   isLoading: boolean;
+  translations: {
+    (key: string): string;
+  };
 }
 export default function InfiniteScrollTrigger({
   onLoadMore,
   hasMore,
   isLoading,
+  translations,
 }: InfiniteScrollTriggerProps) {
   // 무한 스크롤 트리거 영역
   const observerRef = useRef<HTMLDivElement>(null);
@@ -26,8 +30,7 @@ export default function InfiniteScrollTrigger({
         }
       },
       {
-        threshold: 0.1,
-        rootMargin: "100px",
+        threshold: 0.3,
       }
     );
     if (observerRef.current) {
@@ -42,7 +45,7 @@ export default function InfiniteScrollTrigger({
     hasMore && (
       <div ref={observerRef} className="flex justify-center py-4">
         {isLoading ? (
-          <LoadingState message="더 많은 영화를 불러오는 중..." />
+          <LoadingState message={translations("search.loadingMore")} />
         ) : (
           <div className="h-4" />
         )}

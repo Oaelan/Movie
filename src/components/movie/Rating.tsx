@@ -63,7 +63,7 @@ export default function Rating({
         </svg>
         <div className="absolute inset-0 flex justify-center items-center">
           <span className="text-sm font-bold text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.9)] shadow-black">
-            {vote_average.toFixed(1)}
+            {vote_average ? vote_average.toFixed(1) : "0.0"}
           </span>
         </div>
       </div>

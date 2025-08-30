@@ -19,7 +19,7 @@ export default async function MovieDetailPage({
   const detail: DetailMovie = await getMovieDetail(id, locale as Language);
   const posterUrl = getImageUrl(detail.poster_path, "w500") || null;
   const backdropUrl = getImageUrl(detail.backdrop_path, "w1280") || null;
-  const t = await getTranslations("movie");
+  const translations = await getTranslations("");
 
   return (
     <div className="min-h-screen bg-primary">
@@ -31,10 +31,14 @@ export default async function MovieDetailPage({
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* 포스터 */}
-            <MoviePoster posterUrl={posterUrl} title={detail.title} />
+            <MoviePoster
+              posterUrl={posterUrl}
+              title={detail.title}
+              translations={translations}
+            />
 
             {/* 영화 정보 */}
-            <MovieContent movie={detail} translations={t} />
+            <MovieContent movie={detail} translations={translations} />
           </div>
         </div>
       </div>

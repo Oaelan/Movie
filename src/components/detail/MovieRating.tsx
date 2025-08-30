@@ -23,7 +23,7 @@ export default function MovieRating({ movie, translations }: MovieRatingProps) {
               {movie.vote_average.toFixed(1) + " / 10.0"}
             </span>
             <span className="text-xs text-text-muted">
-              {movie.vote_count.toLocaleString()} {translations("votes")}
+              {movie.vote_count.toLocaleString()} {translations("movie.votes")}
             </span>
           </div>
         </div>
@@ -41,7 +41,7 @@ export default function MovieRating({ movie, translations }: MovieRatingProps) {
               {movie.vote_average.toFixed(1) + " / 10.0"}
             </span>
             <span className="text-xs text-text-muted">
-              {movie.vote_count.toLocaleString()} {translations("votes")}
+              {movie.vote_count.toLocaleString()} {translations("movie.votes")}
             </span>
           </div>
         </div>

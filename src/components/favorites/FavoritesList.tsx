@@ -16,8 +16,12 @@ export default function FavoritesList({
   if (movies.length === 0) {
     return (
       <div className="col-span-full text-center py-20">
-        <p className="text-text-muted text-lg mb-4">{translations("empty")}</p>
-        <p className="text-text-secondary">{translations("suggestion")}</p>
+        <p className="text-text-muted text-lg mb-4">
+          {translations("favorites.empty")}
+        </p>
+        <p className="text-text-secondary">
+          {translations("favorites.suggestion")}
+        </p>
       </div>
     );
   }

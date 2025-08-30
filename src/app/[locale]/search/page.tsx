@@ -7,20 +7,22 @@ import {
   ErrorState,
 } from "@/components";
 import useInfiniteFetch from "@/hooks/useInfiniteFetch";
+import { useTranslations } from "next-intl";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("query") || "";
+  const translations = useTranslations("");
 
   const { movies, isLoading, error, hasMore, loadMore, totalResults } =
     useInfiniteFetch(searchQuery);
 
   if (isLoading && movies.length === 0) {
-    return <LoadingState message="검색 중..." />;
+    return <LoadingState message={translations("common.loading")} />;
   }
 
   if (error) {
-    return <ErrorState error={error} message="다시 시도해주세요." />;
+    return <ErrorState error={error} message={translations("common.retry")} />;
   }
 
   return (
@@ -29,6 +31,7 @@ export default function SearchPage() {
         <SearchResultHeader
           searchQuery={searchQuery}
           resultCount={totalResults}
+          translations={translations}
         />
         <SearchResultList
           movies={movies}
@@ -36,6 +39,7 @@ export default function SearchPage() {
           hasMore={hasMore}
           isLoading={isLoading}
           onLoadMore={loadMore}
+          translations={translations}
         />
       </div>
     </div>

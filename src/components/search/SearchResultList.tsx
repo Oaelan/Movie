@@ -9,6 +9,9 @@ interface SearchResultListProps {
   hasMore: boolean;
   isLoading: boolean;
   onLoadMore: () => void;
+  translations: {
+    (key: string, values?: Record<string, string | number>): string;
+  };
 }
 
 export default function SearchResultList({
@@ -17,15 +20,18 @@ export default function SearchResultList({
   hasMore,
   isLoading,
   onLoadMore,
+  translations,
 }: SearchResultListProps) {
   // 초기 검색 결과가 없을 때
   if (movies.length === 0) {
     return (
       <div className="text-center py-20">
         <p className="text-text-muted text-lg mb-4">
-          &ldquo;{searchQuery}&rdquo;에 대한 검색 결과가 없습니다.
+          {translations("search.noResults", { query: searchQuery })}
         </p>
-        <p className="text-text-secondary">다른 키워드로 검색해보세요.</p>
+        <p className="text-text-secondary">
+          {translations("search.suggestion")}
+        </p>
       </div>
     );
   }
@@ -33,7 +39,7 @@ export default function SearchResultList({
   return (
     <div className="space-y-4">
       {/* 영화 카드 그리드 */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 justify-items-center">
+      <div className="movie-grid">
         {movies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}
@@ -44,6 +50,7 @@ export default function SearchResultList({
         onLoadMore={onLoadMore}
         hasMore={hasMore}
         isLoading={isLoading}
+        translations={translations}
       />
     </div>
   );

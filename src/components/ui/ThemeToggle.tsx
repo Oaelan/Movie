@@ -12,13 +12,12 @@ export default function ThemeToggle({ translations }: ThemeToggleProps) {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <button
-      onClick={toggleTheme}
-      className="flex items-center gap-2 text-text-secondary hover:text-text transition-colors duration-200 px-3 py-2 rounded-md hover:bg-secondary"
-    >
+    <button onClick={toggleTheme} className="nav-menu-hover">
       <span className="">{theme === "light" ? <FaMoon /> : <FaSun />}</span>
       <span className="text-sm font-medium w-[50px] hidden md:inline">
-        {theme === "light" ? translations("dark") : translations("light")}
+        {theme === "light"
+          ? translations("nav.theme.dark")
+          : translations("nav.theme.light")}
       </span>
     </button>
   );

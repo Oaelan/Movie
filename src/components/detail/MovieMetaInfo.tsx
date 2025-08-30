@@ -16,8 +16,8 @@ export default function MovieMetaInfo({
       <span>{movie.release_date}</span>
       {movie.runtime > 0 && (
         <span>
-          {Math.floor(movie.runtime / 60)} {translations("hours")}{" "}
-          {movie.runtime % 60} {translations("minutes")}
+          {Math.floor(movie.runtime / 60)} {translations("movie.hours")}{" "}
+          {movie.runtime % 60} {translations("movie.minutes")}
         </span>
       )}
       <span>{movie.status}</span>

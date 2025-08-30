@@ -3,7 +3,8 @@
     "search": "Search",
     "error": "An error occurred",
     "retry": "Please try again.",
-    "movie": "Movie"
+    "movie": "Movie",
+    "loading": "Loading..."
   },
   "home": {
     "title": "Search for any movie you want!",
@@ -19,7 +20,8 @@
     "suggestion": "Try searching with different keywords.",
     "loading": "Searching...",
     "loadingMore": "Loading more movies...",
-    "results": "Search Results"
+    "results": "Search Results",
+    "find": "movies found."
   },
   "favorites": {
     "title": "Favorites",
@@ -49,8 +51,10 @@
     "home": "Home",
     "favorites": "Favorites",
     "language": "Language",
-    "dark": "Dark",
-    "light": "Light",
+    "theme": {
+      "dark": "Dark",
+      "light": "Light"
+    },
     "search": {
       "placeholder": "Search for movies"
     }
