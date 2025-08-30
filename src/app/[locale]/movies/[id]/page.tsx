@@ -34,7 +34,7 @@ export default async function MovieDetailPage({
             <MoviePoster
               posterUrl={posterUrl}
               title={detail.title}
-              translations={translations}
+              imageLoadingText={translations("movie.imageLoading")}
             />
 
             {/* 영화 정보 */}

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Rating from "./Rating";
 import Link from "next/link";
 import { Movie } from "@/lib/types/movie";
-import { LinkHTMLAttributes } from "react";
+import { LinkHTMLAttributes, useState } from "react";
 import Like from "@/components/ui/Like";
 import { getImageUrl } from "@/lib/utils/imageUtils";
 import { useLocale, useTranslations } from "next-intl";
@@ -18,6 +18,7 @@ export default function MovieCard({ movie, ...props }: MovieCardProps) {
   const posterUrl = getImageUrl(movie.poster_path, "w500") || null;
   const locale = useLocale();
   const translations = useTranslations("");
+  const [imageError, setImageError] = useState(false);
   return (
     <Link
       {...props}
@@ -32,7 +33,7 @@ export default function MovieCard({ movie, ...props }: MovieCardProps) {
       <div className="absolute top-2 right-2 z-10">
         <Like movieId={movie.id} />
       </div>
-      {posterUrl ? (
+      {posterUrl && !imageError ? (
         <div className="w-full h-64 flex-shrink-0">
           <Image
             src={posterUrl}
@@ -41,6 +42,7 @@ export default function MovieCard({ movie, ...props }: MovieCardProps) {
             height={256}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="w-full h-full object-cover"
+            onError={() => setImageError(true)}
           />
         </div>
       ) : (

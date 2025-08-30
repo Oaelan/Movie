@@ -14,7 +14,7 @@ export default function MovieRating({ movie, translations }: MovieRatingProps) {
       {/* 데스크톱용 평점 */}
       <div className="flex-col gap-3 hidden md:flex">
         <h2 className="text-xl font-semibold text-text">
-          {translations("rating")}
+          {translations("movie.rating")}
         </h2>
         <div className="flex items-center gap-3">
           <Rating vote_average={movie.vote_average} />
@@ -32,7 +32,7 @@ export default function MovieRating({ movie, translations }: MovieRatingProps) {
       {/* 모바일용 평점 */}
       <div className="flex-col gap-3 flex md:hidden">
         <h2 className="text-xl font-semibold text-text">
-          {translations("rating")}
+          {translations("movie.rating")}
         </h2>
         <div className="flex items-center gap-3">
           <Rating vote_average={movie.vote_average} />

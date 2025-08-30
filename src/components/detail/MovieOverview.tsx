@@ -12,7 +12,7 @@ export default function MovieOverview({
   return (
     <div className="space-y-2">
       <h2 className="text-xl font-semibold text-text">
-        {translations("overview")}
+        {translations("movie.overview")}
       </h2>
       <p className="text-text leading-relaxed">
         {overview || translations("movie.noOverview")}
