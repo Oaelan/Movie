@@ -13,9 +13,7 @@ export default function FavoritesPage() {
   const { likedMovies, isLoading, error } = useFavorites();
 
   if (error) {
-    return (
-      <ErrorState error={error} message={translations("favorites.error")} />
-    );
+    return <ErrorState message={translations("favorites.error")} />;
   }
   if (isLoading) {
     return <LoadingState message={translations("favorites.loading")} />;

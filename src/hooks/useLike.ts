@@ -1,25 +1,26 @@
 import { useState, useEffect } from "react";
+import { useLocalStorage } from "./useLocalStorage";
+import { useLocale } from "next-intl";
+import { useQueryClient } from "@tanstack/react-query"; // 추가
 
 export default function useLike(movieId: number) {
+  const locale = useLocale();
+  const queryClient = useQueryClient();
+  const [likes, updateStorage] = useLocalStorage("Likes");
   const [isLiked, setIsLiked] = useState(() => {
     if (typeof window !== "undefined") {
-      const storedLikes = localStorage.getItem("Likes");
-      if (storedLikes) return JSON.parse(storedLikes).includes(movieId);
+      if (likes.indexOf(movieId) !== -1) return true;
     }
     return false;
   });
   const [isMounted, setIsMounted] = useState(false);
 
   const handleLike = () => {
-    const storedLikes = localStorage.getItem("Likes");
-    const likes = storedLikes ? JSON.parse(storedLikes) : [];
-    if (likes.includes(movieId)) {
-      localStorage.setItem(
-        "Likes",
-        JSON.stringify(likes.filter((id: number) => id !== movieId))
-      );
+    if (isLiked) {
+      updateStorage(likes.filter((id: number) => id !== movieId));
+      queryClient.removeQueries({ queryKey: ["likes", movieId, locale] });
     } else {
-      localStorage.setItem("Likes", JSON.stringify([...likes, movieId]));
+      updateStorage([...likes, movieId]);
     }
     setIsLiked(!isLiked);
   };
