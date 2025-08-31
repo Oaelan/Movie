@@ -4,11 +4,12 @@ import { setCookieClient } from "@/lib/utils/cookies";
 import Dropdown from "./Dropdown";
 import { Language } from "@/i18n/config";
 import { useLocale } from "next-intl";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 export default function LanguageSelector() {
   const locale = useLocale() as Language;
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [currentLanguage, setCurrentLanguage] = useState<Language>(locale);
 
   const options: { value: Language; label: string }[] = [
@@ -29,7 +30,9 @@ export default function LanguageSelector() {
       segments.splice(1, 0, value);
     }
     const newPath = segments.join("/");
-    window.location.href = newPath; // 페이지 새로고침
+    const currentQuery = searchParams.toString();
+    const fullPath = `${newPath}?${currentQuery}`;
+    window.location.href = fullPath; // 페이지 새로고침
   };
 
   return (
