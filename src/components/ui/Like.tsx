@@ -9,6 +9,10 @@ interface LikeProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export default function Like({ className, movieId }: LikeProps) {
   const { isLiked, isMounted, handleLike } = useLike(movieId);
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation(); // 이벤트 버블링 중단
+    handleLike();
+  };
   if (!isMounted) {
     return (
       <button
@@ -23,7 +27,7 @@ export default function Like({ className, movieId }: LikeProps) {
   return (
     <button
       className={`${className} cursor-pointer transition-colors duration-500`}
-      onClick={handleLike}
+      onClick={handleClick}
     >
       <FaHeart
         className={`w-6 h-6 ${isLiked ? "text-red-500" : "text-gray-500"}`}
