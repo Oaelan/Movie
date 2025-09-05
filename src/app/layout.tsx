@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Nav from "@/components/layout/Nav";
-import ThemeProvider, { Theme } from "@/context/ThemeContext";
+import { Theme } from "@/context/ThemeContext";
 import { NextIntlClientProvider } from "next-intl";
 import { getCookieServer } from "@/lib/utils/cookies";
 import { Language } from "@/i18n/config";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Providers from "@/providers/Providers";
 
 export const metadata: Metadata = {
@@ -23,7 +22,7 @@ export default async function RootLayout({
   return (
     <html lang="ko" data-theme={theme}>
       <body className="bg-primary">
-        <Providers theme={theme}>
+        <Providers theme={theme} locale={language}>
           <NextIntlClientProvider locale={language}>
             <Nav />
             <div className="mt-[154px]">{children}</div>

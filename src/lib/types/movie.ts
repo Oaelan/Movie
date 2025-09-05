@@ -9,8 +9,8 @@ type Movie = {
   id: number;
   title: string;
   original_title: string;
-  poster_path: string;
-  backdrop_path: string;
+  poster_path: string | null; // TMDB API에서 null일 수 있음
+  backdrop_path: string | null; // TMDB API에서 null일 수 있음
   overview: string;
   release_date: string;
   vote_average: number;

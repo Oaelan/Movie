@@ -1,85 +1,73 @@
 "use client";
-import { Movie } from "@/lib/types/movie";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getSearchMovies } from "@/lib/api/movieApi";
+import { TMDBResponse } from "@/lib/types/movie";
+import { useLocale } from "next-intl";
+import { Language } from "@/i18n/config";
 
 export default function useInfiniteFetch(searchQuery: string) {
-  //검색 결과 영화 데이터 목록
-  const [movies, setMovies] = useState<Movie[]>([]);
-  //전체 결과
-  const [totalResults, setTotalResults] = useState(0); // 전체 결과 수
-  //전체 페이지 수
-  const [totalPages, setTotalPages] = useState(0);
-  //로딩 상태
-  const [isLoading, setIsLoading] = useState(true);
-  //에러 상태
-  const [error, setError] = useState<string | null>(null);
-  //페이지 번호
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
-  //더 불러올 데이터가 있는지 여부
-  const [hasMore, setHasMore] = useState(true);
+  const locale = useLocale() as Language;
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isFetching,
+    error,
+    refetch,
+  } = useInfiniteQuery<TMDBResponse>({
+    queryKey: ["search", searchQuery], // 검색어별 캐싱
+    queryFn: ({ pageParam }) =>
+      getSearchMovies(searchQuery, pageParam as number, locale),
+    initialPageParam: 1, // React Query v5에서 필수
+    getNextPageParam: (response: TMDBResponse) => {
+      // 다음 페이지가 있는지 확인
+      return response.page < response.total_pages
+        ? response.page + 1
+        : undefined;
+    },
+    enabled: !!searchQuery.trim(), // 검색어가 있을 때만 실행
+    staleTime: 5 * 60 * 1000, // 5분간 캐시 유지
+    gcTime: 10 * 60 * 1000, // 10분간 메모리에 보관 (React Query v5에서 cacheTime -> gcTime)
+    retry: 3, // 실패 시 3번 재시도
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+    refetchOnWindowFocus: false, // 창 포커스 시 자동 새로고침 비활성화
+    refetchOnReconnect: true, // 네트워크 재연결 시 새로고침
+  });
+  // 모든 페이지의 영화 데이터를 하나의 배열로 합치고 중복 제거
+  const movies = useMemo(() => {
+    if (!data?.pages) return [];
 
-  //검색어 변경 시 초기화
-  const reset = () => {
-    setMovies([]);
-    setTotalResults(0);
-    setTotalPages(0);
-    setCurrentPage(1);
-    setHasMore(true);
-    setIsLoading(true);
-  };
-  //추가 데이터 로드 함수
-  const loadMore = async () => {
-    //검색어가 비어있거나, 더 불러올 데이터가 없거나, 로딩 중이면 종료
-    if (!searchQuery.trim() || !hasMore || isLoading) return;
-    try {
-      setIsLoading(true);
-      const nextPage = currentPage + 1;
-      const result = await getSearchMovies(searchQuery, nextPage);
-      setMovies((prevMovies) => [...prevMovies, ...result.results]);
-      setCurrentPage(nextPage);
-      setHasMore(nextPage < result.total_pages);
-    } catch (error) {
-      setError("추가 데이터 로드 중 오류가 발생했습니다.");
-      console.error("추가 데이터 로드 중 오류가 발생했습니다.", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  //초기 검색 및 검색어 변경 시 초기화
-  useEffect(() => {
-    //초기 검색 결과 데이터 가져오는 함수
-    const fetchInitialData = async () => {
-      if (!searchQuery.trim()) {
-        return;
+    const allMovies = data.pages.flatMap((page: TMDBResponse) => page.results);
+
+    const movieSet = new Set(); // 검색결과에 페이지마다 중복된 영화가 있을 수 있기 때문에 Set을 사용하여 중복 제거
+    const uniqueMovies = allMovies.filter((movie) => {
+      if (movieSet.has(movie.id)) {
+        return false; // 제거
       }
-      try {
-        reset();
-        setIsLoading(true);
-        setError(null);
-        const result = await getSearchMovies(searchQuery, 1);
-        setMovies(result.results);
-        setTotalResults(result.total_results);
-        setTotalPages(result.total_pages);
-        setCurrentPage(1);
-        setHasMore(result.total_pages > 1);
-      } catch (error) {
-        setError("검색 중 오류가 발생했습니다.");
-        console.error("검색 중 오류가 발생했습니다.", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchInitialData();
-  }, [searchQuery]);
+      movieSet.add(movie.id);
+      return true; // 유지
+    });
+
+    return uniqueMovies;
+  }, [data]);
+
+  // 첫 번째 페이지의 메타데이터 사용
+  const totalResults = data?.pages[0]?.total_results ?? 0;
+  const totalPages = data?.pages[0]?.total_pages ?? 0;
 
   return {
     movies,
     totalResults,
     totalPages,
     isLoading,
-    error,
-    hasMore,
-    loadMore,
+    isFetching,
+    error: error?.message ?? null,
+    hasMore: hasNextPage,
+    loadMore: fetchNextPage,
+    isFetchingNextPage,
+    refetch, // 검색어 변경 시 수동으로 새로고침 가능
   };
 }

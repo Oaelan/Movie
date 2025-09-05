@@ -14,7 +14,7 @@ interface MovieDetailPageProps {
 export default async function MovieDetailPage({
   params,
 }: MovieDetailPageProps) {
-  const { id } = params;
+  const { id } = await params;
   const locale = await getLocale();
   const detail: DetailMovie = await getMovieDetail(id, locale as Language);
   const posterUrl = getImageUrl(detail.poster_path, "w500") || null;

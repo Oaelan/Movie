@@ -2,17 +2,17 @@
 import { useEffect, useRef } from "react";
 import { LoadingState } from "..";
 interface InfiniteScrollTriggerProps {
-  onLoadMore: () => void;
-  hasMore: boolean;
-  isLoading: boolean;
+  fetchNextPage: () => void;
+  hasNextPage: boolean;
+  isFetching: boolean;
   translations: {
     (key: string): string;
   };
 }
 export default function InfiniteScrollTrigger({
-  onLoadMore,
-  hasMore,
-  isLoading,
+  fetchNextPage,
+  hasNextPage,
+  isFetching,
   translations,
 }: InfiniteScrollTriggerProps) {
   // 무한 스크롤 트리거 영역
@@ -20,13 +20,13 @@ export default function InfiniteScrollTrigger({
 
   useEffect(() => {
     // hasMore가 false면 옵저버 설정하지 않음
-    if (!hasMore) {
+    if (!hasNextPage) {
       return;
     }
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          onLoadMore();
+          fetchNextPage();
         }
       },
       {
@@ -39,12 +39,12 @@ export default function InfiniteScrollTrigger({
     return () => {
       observer.disconnect();
     };
-  }, [onLoadMore, hasMore]);
+  }, [fetchNextPage, hasNextPage]);
 
   return (
-    hasMore && (
+    hasNextPage && (
       <div ref={observerRef} className="flex justify-center py-4">
-        {isLoading ? (
+        {isFetching ? (
           <LoadingState message={translations("search.loadingMore")} />
         ) : (
           <div className="h-4" />

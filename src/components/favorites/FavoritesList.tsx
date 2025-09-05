@@ -1,16 +1,20 @@
 import { Movie } from "@/lib/types/movie";
-import { MovieCard } from "@/components";
+import { LoadingState, MovieCard } from "@/components";
 
 interface FavoritesListProps {
   movies: Movie[];
   translations: {
     (key: string): string;
   };
+  toggleLike?: (movieId: number) => void;
+  isLoading: boolean;
 }
 
 export default function FavoritesList({
   movies,
   translations,
+  toggleLike,
+  isLoading,
 }: FavoritesListProps) {
   // 로딩이 완료되고 데이터가 없으면 빈 상태 표시
   if (movies.length === 0) {
@@ -29,8 +33,11 @@ export default function FavoritesList({
   return (
     <>
       {movies.map((movie) => (
-        <MovieCard key={movie.id} movie={movie} />
+        <MovieCard key={movie.id} movie={movie} toggleLike={toggleLike} />
       ))}
+      {isLoading && (
+        <LoadingState message={translations("favorites.loading")} />
+      )}
     </>
   );
 }

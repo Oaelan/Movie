@@ -14,15 +14,22 @@ export default function SearchPage() {
   const searchQuery = searchParams.get("query") || "";
   const translations = useTranslations("");
 
-  const { movies, isLoading, error, hasMore, loadMore, totalResults } =
-    useInfiniteFetch(searchQuery);
+  const {
+    movies,
+    isLoading,
+    error,
+    hasNextPage,
+    fetchNextPage,
+    totalResults,
+    isFetching,
+  } = useInfiniteFetch(searchQuery);
 
   if (isLoading && movies.length === 0) {
     return <LoadingState message={translations("common.loading")} />;
   }
 
   if (error) {
-    return <ErrorState error={error} message={translations("common.retry")} />;
+    return <ErrorState message={translations("common.retry")} />;
   }
 
   return (
@@ -36,10 +43,10 @@ export default function SearchPage() {
         <SearchResultList
           movies={movies}
           searchQuery={searchQuery}
-          hasMore={hasMore}
-          isLoading={isLoading}
-          onLoadMore={loadMore}
+          hasNextPage={hasNextPage}
+          fetchNextPage={fetchNextPage}
           translations={translations}
+          isFetching={isFetching}
         />
       </div>
     </div>
