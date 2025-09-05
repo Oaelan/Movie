@@ -1,25 +1,24 @@
 import { useState, useEffect } from "react";
+import { getLocalStorage, updateLocalStorage } from "@/lib/utils/localStorage";
 
-export default function useLike(movieId: number) {
+export default function useLike(movieId: number, likes: number[]) {
   const [isLiked, setIsLiked] = useState(() => {
     if (typeof window !== "undefined") {
-      const storedLikes = localStorage.getItem("Likes");
-      if (storedLikes) return JSON.parse(storedLikes).includes(movieId);
+      if (likes.indexOf(movieId) !== -1) return true;
     }
     return false;
   });
   const [isMounted, setIsMounted] = useState(false);
 
   const handleLike = () => {
-    const storedLikes = localStorage.getItem("Likes");
-    const likes = storedLikes ? JSON.parse(storedLikes) : [];
-    if (likes.includes(movieId)) {
-      localStorage.setItem(
+    const currentLikes = getLocalStorage("Likes");
+    if (isLiked) {
+      updateLocalStorage(
         "Likes",
-        JSON.stringify(likes.filter((id: number) => id !== movieId))
+        currentLikes.filter((id: number) => id !== movieId)
       );
     } else {
-      localStorage.setItem("Likes", JSON.stringify([...likes, movieId]));
+      updateLocalStorage("Likes", [...currentLikes, movieId]);
     }
     setIsLiked(!isLiked);
   };

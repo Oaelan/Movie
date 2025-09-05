@@ -1,71 +1,57 @@
-import { getMovieDetail } from "@/lib/api/movieApi";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Movie } from "@/lib/types/movie";
+import { getLocalStorage, updateLocalStorage } from "@/lib/utils/localStorage";
 import { useLocale } from "next-intl";
+import { useQueries } from "@tanstack/react-query";
+import { getMovieDetail } from "@/lib/api/movieApi";
 import { Language } from "@/i18n/config";
 
 export default function useFavorites() {
+  const [likes, setLikes] = useState<Movie[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
+  const likedMovieIds = getLocalStorage("Likes");
   const locale = useLocale();
-  const [likedMovieIds, setLikedMovieIds] = useState<string[]>([]);
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const data = useQueries({
+    queries: likedMovieIds.map((id: number) => ({
+      queryKey: ["likes", id, locale],
+      queryFn: () => getMovieDetail(id.toString(), locale as Language),
+      enabled: !!id, // id가 있을 때만 실행
+    })),
+  });
 
-  // 로컬스토리지에서 좋아요 목록 가져오기
-  const getLikedMovieIds = (): string[] => {
-    if (typeof window !== "undefined") {
-      const likes = localStorage.getItem("Likes");
-      return likes ? JSON.parse(likes) : [];
+  const isLoading = !isMounted || data.some((query) => query.isLoading);
+  const error = (data.find((query) => query.error)?.error as Error) || null;
+
+  const toggleLike = (movieId: number) => {
+    const currentLikes = getLocalStorage("Likes");
+    if (currentLikes.includes(movieId)) {
+      const newLikes = likes.filter((like) => like.id !== movieId);
+      setLikes(newLikes);
+      updateLocalStorage(
+        "Likes",
+        currentLikes.filter((id: number) => id !== movieId)
+      );
+    } else {
+      updateLocalStorage("Likes", [...currentLikes, movieId]);
     }
-    return [];
   };
-
-  // 좋아요 목록 ID 업데이트 및 초기 데이터 설정
   useEffect(() => {
-    const ids = getLikedMovieIds();
-    setLikedMovieIds(ids);
-
-    // 좋아요 목록이 비어있으면 바로 로딩 완료
-    if (ids.length === 0) {
-      setIsLoading(false);
+    if (data && data.length > 0) {
+      const movies = data
+        .filter((query) => query.isSuccess && query.data) // 성공한 쿼리만
+        .map((query) => query.data as Movie);
+      setLikes((prev) => {
+        // 기존 데이터와 비교해서 다를 때만 업데이트
+        if (JSON.stringify(prev) !== JSON.stringify(movies)) {
+          return movies;
+        }
+        return prev;
+      });
     }
+  }, [data]);
+  useEffect(() => {
+    setIsMounted(true);
   }, []);
 
-  // 좋아요 목록 영화 데이터 가져오기
-  useEffect(() => {
-    const fetchAllMovies = async () => {
-      // 좋아요 목록이 비어있으면 패칭하지 않음
-      if (likedMovieIds.length === 0) {
-        return;
-      }
-
-      try {
-        setIsLoading(true);
-        setError(null);
-
-        const moviePromises = likedMovieIds.map((id) =>
-          getMovieDetail(id, locale as Language)
-        );
-        const movieData = await Promise.all(moviePromises);
-        setMovies(movieData);
-      } catch (error) {
-        setError("좋아요 영화 데이터를 가져오는 중 오류가 발생했습니다.");
-        console.error("좋아요 영화 데이터 가져오기 실패:", error);
-        setMovies([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchAllMovies();
-  }, [likedMovieIds, locale]);
-
-  return {
-    likedMovies: movies,
-    setLikedMovies: setMovies,
-    likedMovieIds,
-    setLikedMovieIds,
-    isLoading,
-    error,
-  };
+  return { likes, isLoading, error, toggleLike };
 }

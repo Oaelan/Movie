@@ -6,9 +6,9 @@ import InfiniteScrollTrigger from "./InfiniteScrollTrigger";
 interface SearchResultListProps {
   movies: Movie[];
   searchQuery: string;
-  hasMore: boolean;
-  isLoading: boolean;
-  onLoadMore: () => void;
+  isFetching: boolean;
+  fetchNextPage: () => void;
+  hasNextPage: boolean;
   translations: {
     (key: string, values?: Record<string, string | number>): string;
   };
@@ -17,9 +17,9 @@ interface SearchResultListProps {
 export default function SearchResultList({
   movies,
   searchQuery,
-  hasMore,
-  isLoading,
-  onLoadMore,
+  isFetching,
+  fetchNextPage,
+  hasNextPage,
   translations,
 }: SearchResultListProps) {
   // 초기 검색 결과가 없을 때
@@ -47,9 +47,9 @@ export default function SearchResultList({
 
       {/* 무한 스크롤 트리거 영역 */}
       <InfiniteScrollTrigger
-        onLoadMore={onLoadMore}
-        hasMore={hasMore}
-        isLoading={isLoading}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isFetching={isFetching}
         translations={translations}
       />
     </div>
